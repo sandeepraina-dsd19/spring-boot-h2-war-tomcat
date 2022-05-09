@@ -24,7 +24,7 @@ pipelines:
               tasks:
                 - exec:
                     run_if: passed
-                    command: /bin/sh
+                    command: cmd
                     arguments:
                     - start_tomcat.sh
                     - C:/apache-tomcat-9.0.62 
