@@ -1,64 +1,38 @@
 pipeline {
-    agent any
-    tools {
-        maven 'MAVEN_PATH'
-        jdk 'jdk8'
+	agent any
+	
+	triggers {
+        githubPush()
     }
-    stages {
-        stage("Tools initialization") {
+	
+	stages {
+        stage('Code Checkout') {
             steps {
-                sh "mvn --version"
-                sh "java -version"
+                checkout([
+                    $class: 'GitSCM', 
+                    branches: [[name: '*/master']], 
+                    userRemoteConfigs: [[url: 'https://github.com/sandeepraina-dsd19/spring-boot-h2-war-tomcat.git']]
+                ])
             }
         }
-        stage("Checkout Code") {
+
+        stage('Code Build') {
             steps {
-                checkout scm
+                 bat 'mvn clean package'
             }
         }
-        stage("Check Code Health") {
-            when {
-                not {
-                    anyOf {
-                        branch 'master';
-                        branch 'develop'
-                    }
-                }
-           }
-           steps {
-               sh "mvn clean compile"
-            }
-        }
-        stage("Run Test cases") {
-            when {
-                branch 'develop';
-            }
-           steps {
-               sh "mvn clean test"
-            }
-        }
-        stage("Check Code coverage") {
-            when {
-                branch 'develop'
-            }
+
+        stage('Start Tomcat') {
             steps {
-               jacoco(
-                    execPattern: '**/target/**.exec',
-                    classPattern: '**/target/classes',
-                    sourcePattern: '**/src',
-                    inclusionPattern: 'com/iamvickyav/**',
-                    changeBuildStatus: true,
-                    minimumInstructionCoverage: '30',
-                    maximumInstructionCoverage: '80')
-           }
-        }
-        stage("Build & Deploy Code") {
-            when {
-                branch 'master'
+                 bat 'start_tomcat.sh C:/apache-tomcat-9.0.62'
             }
+        }
+		
+		stage('Deploy war file') {
             steps {
-                sh "mvn tomcat7:deploy"
+                 bat 'mvn tomcat7:deploy'
             }
         }
-    }
- }
+
+    }   
+}
