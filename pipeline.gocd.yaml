@@ -2,6 +2,9 @@ format_version: 2
 pipelines:
   pipeline_code_demo:
     group: defaultGroup
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
     timer:
       spec: "0 0/5 14 * * ?"
       only_on_changes: false
