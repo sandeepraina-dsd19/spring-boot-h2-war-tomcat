@@ -2,8 +2,12 @@ format_version: 2
 pipelines:
   pipeline_code_demo:
     group: defaultGroup
+    group: defaultGroup
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
     timer:
-      spec: 5 0 0 ? * MON-FRI
+      spec: 0 5 0 ? * MON-FRI
       only_on_changes: false
     materials:
       backend:
