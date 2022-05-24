@@ -1,7 +1,7 @@
-format_version: 2
+format_version: 9
 pipelines:
   pipeline_code_demo:
-    group: defaultGroup1
+    group: defaultGroup
     materials:
       backend:
         git: https://github.com/sandeepraina-dsd19/spring-boot-h2-war-tomcat.git
