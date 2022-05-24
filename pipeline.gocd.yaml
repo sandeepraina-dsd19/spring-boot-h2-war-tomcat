@@ -1,7 +1,7 @@
 format_version: 2
 pipelines:
   pipeline_code_demo:
-    group: defaultGroup
+    group: defaultGroup1
     label_template: ${COUNT}
     lock_behavior: none
     display_order: -1
