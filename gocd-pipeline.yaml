@@ -2,6 +2,9 @@ format_version: 2
 pipelines:
   pipeline_code_demo:
     group: defaultGroup
+    timer:
+      spec: 5 0 0 ? * MON-FRI
+      only_on_changes: false
     materials:
       backend:
         git: https://github.com/iamvickyav/spring-boot-h2-war-tomcat.git
